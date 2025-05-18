@@ -6,6 +6,9 @@ import EducationSection from "@/components/sections/education-section"
 import ProjectsSection from "@/components/sections/projects-section"
 import AiDemoSection from "@/components/sections/ai-demo-section"
 import ContactSection from "@/components/sections/contact-section"
+import CertificatesSection from "@/components/sections/certificates-section"
+import ThemeToggleButton from "@/components/theme-toggle-button"
+import AchievementsSection from "@/components/sections/achievements-section"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -22,9 +25,12 @@ export default function Home() {
       <SkillsSection />
       <ExperienceSection />
       <EducationSection />
+      <AchievementsSection />
+      <CertificatesSection />
       <ProjectsSection />
       <AiDemoSection />
       <ContactSection />
+      <ThemeToggleButton />
     </main>
   )
 }

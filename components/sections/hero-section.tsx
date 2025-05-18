@@ -1,128 +1,162 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useRef } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Mail, Linkedin, Github } from "lucide-react"
 import Image from "next/image"
 
 const HeroSection = () => {
-  const constraintsRef = useRef(null)
+  const [currentTitleIndex, setCurrentTitleIndex] = useState(0)
+  
+  const titles = [
+    "Full Stack Developer",
+    "ML Intern",
+    "AI Specialist",
+    "Innovative Problem Solver",
+    "Web Solutions Architect"
+  ]
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTitleIndex((prevIndex) => (prevIndex + 1) % titles.length)
+    }, 2500) // Changed interval to 2.5 seconds
+    
+    return () => clearInterval(interval)
+  }, [titles.length])
 
   return (
     <section
-      id="hero"
-      className="min-h-screen relative flex items-center justify-center overflow-hidden gradient-bg"
-      ref={constraintsRef}
+      id="home"
+      className="min-h-screen relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900 px-4 md:px-8 lg:px-12"
     >
-      <div className="absolute inset-0 z-0">
-        <motion.div
-          className="absolute inset-0 opacity-20"
-          animate={{
-            backgroundPosition: ["0% 0%", "100% 100%"],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Number.POSITIVE_INFINITY,
-            repeatType: "reverse",
-          }}
-          style={{
-            backgroundImage: 'url("/placeholder.svg?height=500&width=500")',
-            backgroundSize: "100px 100px",
-          }}
-        />
+      <div className="absolute inset-0 z-0 opacity-20">
+        <div className="absolute inset-0 bg-grid-white/[0.05]" />
       </div>
 
-      <motion.div
-        className="container mx-auto px-4 z-10 text-center"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <div className="mb-8 relative">
-          <motion.div
-            className="w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-white shadow-xl"
-            whileHover={{ scale: 1.05 }}
-          >
-            <Image
-              src="/placeholder.svg?height=160&width=160"
-              alt="Poloju Durga Prasad Chary"
-              width={160}
-              height={160}
-              className="object-cover"
-              priority
-            />
-          </motion.div>
-        </div>
+      <div className="container mx-auto z-10 flex flex-col md:flex-row items-center justify-between gap-12 py-16">
+        {/* Left Column: Text Content */}
+        <motion.div
+          className="md:w-1/2 text-center md:text-left"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h3 className="text-white text-2xl md:text-3xl font-semibold mb-3">Hi, I&apos;m</h3>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-blue-400 mb-4">
+            Poloju Durga Prasad Chary
+          </h1>
 
-        <motion.h1
-          className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 font-handjet"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          {/* Dynamic Title Area */}
+          <div className="h-12 md:h-14 mb-6 overflow-hidden">
+            <motion.h2
+              key={currentTitleIndex}
+              className="text-xl md:text-2xl text-white font-medium"
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -50, opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              {titles[currentTitleIndex]}
+            </motion.h2>
+          </div>
+
+          <p className="text-white/90 mb-10 text-lg leading-relaxed">
+            Building innovative web solutions with modern technologies. Passionate about creating impactful digital experiences.
+          </p>
+
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 rounded-md text-lg font-semibold transition-colors"
+                onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+              >
+                Get in Touch
+              </Button>
+            </motion.div>
+
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                className="bg-transparent hover:bg-white/10 text-white px-8 py-6 rounded-md text-lg font-semibold border border-white/20 transition-colors"
+                onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
+              >
+                View Projects
+              </Button>
+            </motion.div>
+          </div>
+
+          {/* Social Icons */}
+          <div className="flex gap-6 mt-12 justify-center md:justify-start">
+            <motion.a
+              href="https://github.com/your-github"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ y: -3 }}
+              className="text-white/70 hover:text-white transition-colors"
+              aria-label="GitHub"
+            >
+              <Github className="w-7 h-7" />
+            </motion.a>
+            <motion.a
+              href="https://linkedin.com/in/your-linkedin"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ y: -3 }}
+              className="text-white/70 hover:text-white transition-colors"
+              aria-label="LinkedIn"
+            >
+              <Linkedin className="w-7 h-7" />
+            </motion.a>
+            {/* Add Twitter/X icon if needed */}
+            {/* <motion.a
+              href="https://twitter.com/your-twitter"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ y: -3 }}
+              className="text-white/70 hover:text-white transition-colors"
+              aria-label="Twitter"
+            >
+              <Twitter className="w-7 h-7" />
+            </motion.a> */}
+          </div>
+
+        </motion.div>
+
+        {/* Right Column: Image */}
+        <motion.div
+          className="md:w-1/2 flex justify-center md:justify-end mt-12 md:mt-0"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          Poloju Durga Prasad Chary
-        </motion.h1>
-
-        <motion.h2
-          className="text-xl md:text-2xl text-white/90 mb-2"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          Machine Learning Intern
-        </motion.h2>
-
-        <motion.p
-          className="text-white/80 mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          Hyderabad, Telangana, India
-        </motion.p>
-
-        <motion.div
-          className="flex flex-col sm:flex-row justify-center gap-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-        >
-          <motion.div whileHover={{ scale: 1.05 }}>
-            <Button
-              className="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-8 py-6 rounded-full text-lg"
-              onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
-            >
-              View Projects
-            </Button>
-          </motion.div>
-
-          <motion.div whileTap={{ scale: 0.95 }} className="pulse-animation">
-            <Button
-              className="bg-coral text-white px-8 py-6 rounded-full text-lg"
-              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-            >
-              Contact Me
-            </Button>
+          <motion.div
+            className="w-64 h-64 lg:w-80 lg:h-80 rounded-full overflow-hidden border-4 border-blue-400 shadow-xl"
+            whileHover={{ scale: 1.05 }}
+          >
+            {/* Replace with your actual image component/tag */}
+            {/* The image in the original screenshot appears to be a framed profile photo. */}
+            {/* You might want to use Next/Image component here */}
+            <Image
+              src="https://media.licdn.com/dms/image/v2/D5635AQFIkZtWksuT9g/profile-framedphoto-shrink_400_400/B56ZbY8HnKH0Ak-/0/1747396361026?e=1748188800&v=beta&t=u2HhtGKPUm7HM_Q6GMtOFCRTJV1dfl0NtmVMISwZ6Kk"
+              alt="Poloju Durga Prasad Chary's profile picture"
+              width={320}
+              height={320}
+              className="rounded-full object-cover"
+              priority
+            />
+            {/* Placeholder div for the image circle */}
+            {/* <div className="w-full h-full bg-gray-700 flex items-center justify-center text-white/50 text-sm">
+              [Your Image Here]
+            </div> */}
           </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
 
-      <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
-      >
-        <Button
-          variant="ghost"
-          size="icon"
-          className="text-white"
-          onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
-          aria-label="Scroll down"
-        >
-          <ChevronDown size={24} />
-        </Button>
-      </motion.div>
+      {/* Remove the scroll down indicator if not needed in the new design */}
+      {/* <motion.div className="mt-16">
+// ... existing code ...
+      </motion.div> */}
     </section>
   )
 }
