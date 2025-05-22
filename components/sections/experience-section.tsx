@@ -20,7 +20,7 @@ const experiences: Experience[] = [
       "Internship focusing on machine learning applications",
       "Developed an Accurate Animal Classification Application which can ...",
     ],
-    logo: "/placeholder.svg?height=80&width=80",
+    logo: "https://media.licdn.com/dms/image/v2/D4D0BAQHx68aZXxlINg/company-logo_100_100/company-logo_100_100/0/1727846662843/unifiedmentor_logo?e=1753315200&v=beta&t=xQMEce4fVpwuq2ui4U01AMVvIqfZVzgBgvKCo3xyCfk",
   },
   {
     company: "Micro IT",
@@ -30,7 +30,7 @@ const experiences: Experience[] = [
       "Artificial Intelligence and Machine Learning Intern",
       "Intern",
     ],
-    logo: "/placeholder.svg?height=80&width=80",
+    logo: "https://media.licdn.com/dms/image/v2/D560BAQG18yLAmVRJbw/company-logo_100_100/B56ZXxoQ53GcAQ-/0/1743515619594?e=1753315200&v=beta&t=mkxTq9v61kCvj2rPFnoSo1fGVxhKAc8B2InntKuz7fE",
   },
 ]
 

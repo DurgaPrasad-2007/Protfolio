@@ -3,9 +3,23 @@ import { Project } from "./types"
 export const defaultProjects: Project[] = [
   {
     id: 1,
+    title: "Diploma-Learn",
+    description: "An AI-powered e-learning platform with integrated video courses, live coding playground, and 24/7 chatbot support. Master tech skills through interactive lessons, practice coding in real-time, and connect with a learner community. Perfect for diploma students to build in-demand skills efficiently.",
+    image: "https://media.licdn.com/dms/image/v2/D562DAQHW0LxSlxB-NA/profile-treasury-image-shrink_1280_1280/B56Zab0126HgAQ-/0/1746371044187?e=1748512800&v=beta&t=58ZyPBZ0I_FBxAbJAwXwT_G8u8qaXYaQD7iNeQHI23k",
+    tags: ["AI", "HTML", "CSS", "JavaScript", "Python", "Gemini API"],
+    github_url: "https://github.com/DurgaPrasad-2007/Diploma-Learn",
+    demo_url: "",
+    featured: true,
+    problem: "Diploma students needed an accessible platform to learn tech skills with interactive features and AI support.",
+    approach: "Built an AI-powered platform with video courses, live coding playground, and 24/7 chatbot support.",
+    outcome: "Created an engaging learning environment with real-time coding practice and AI assistance.",
+    metrics: "Successfully implemented AI teaching assistant with multiple learning modes and interactive features."
+  },
+  {
+    id: 2,
     title: "AI-Powered Task Manager",
     description: "A task management application with AI features for task prioritization and smart reminders.",
-    image: "/project-1.jpg",
+    image: "https://bing.com/th/id/BCO.6ca5b8b2-0559-4578-a4f7-8108494d47cf.png",
     tags: ["React", "Next.js", "AI", "TensorFlow.js"],
     github_url: "https://github.com/polojuchandrakanth/ai-task-manager",
     demo_url: "https://ai-task-manager.vercel.app",
@@ -16,10 +30,10 @@ export const defaultProjects: Project[] = [
     metrics: "Increased task completion rate by 30% within the first month."
   },
   {
-    id: 2,
+    id: 3,
     title: "E-commerce Platform",
     description: "A full-featured e-commerce platform with product management, cart, and payment integration.",
-    image: "/project-2.jpg",
+    image: "https://bing.com/th/id/BCO.9530d08c-2206-4bf3-8b4f-c770a8b7a3b9.png",
     tags: ["React", "Node.js", "MongoDB", "Stripe"],
     github_url: "https://github.com/polojuchandrakanth/ecommerce-platform",
     demo_url: "https://ecommerce-demo.vercel.app",
@@ -30,10 +44,10 @@ export const defaultProjects: Project[] = [
     metrics: "Processed over $100K in transactions within the first quarter."
   },
   {
-    id: 3,
+    id: 4,
     title: "Real-time Chat Application",
     description: "A real-time chat application with private messaging, group chats, and file sharing capabilities.",
-    image: "/project-3.jpg",
+    image: "https://bing.com/th/id/BCO.b9589e7b-be7c-4b35-98d3-5fd327ff64b2.png",
     tags: ["React", "Socket.io", "Express", "MongoDB"],
     github_url: "https://github.com/polojuchandrakanth/realtime-chat",
     demo_url: "https://realtime-chat-app.vercel.app",
@@ -44,13 +58,13 @@ export const defaultProjects: Project[] = [
     metrics: "Supported 10,000+ concurrent users with minimal latency."
   },
   {
-    id: 4,
+    id: 5,
     title: "Portfolio Website Template",
     description: "A customizable portfolio website template for developers and designers.",
-    image: "/project-4.jpg",
+    image: "https://bing.com/th/id/BCO.7d78220f-bbc6-4c30-8c4e-4fa23a5044ea.png",
     tags: ["Next.js", "Tailwind CSS", "Framer Motion"],
     github_url: "https://github.com/polojuchandrakanth/portfolio-template",
-    demo_url: "https://portfolio-template-demo.vercel.app",
+    demo_url: "",
     featured: false,
     problem: "Developers needed a modern, customizable portfolio template to showcase their work.",
     approach: "Created a responsive template with Tailwind CSS and smooth animations using Framer Motion.",
@@ -58,10 +72,10 @@ export const defaultProjects: Project[] = [
     metrics: "Used by 500+ developers worldwide."
   },
   {
-    id: 5,
+    id: 6,
     title: "Weather Dashboard",
     description: "A weather dashboard with forecast data, location search, and interactive maps.",
-    image: "/project-5.jpg",
+    image: "https://bing.com/th/id/BCO.a70566a9-ff55-47cc-b6c9-953c00ee7bd0.png",
     tags: ["React", "OpenWeather API", "Mapbox"],
     github_url: "https://github.com/polojuchandrakanth/weather-dashboard",
     demo_url: "https://weather-dashboard-demo.vercel.app",
@@ -72,10 +86,10 @@ export const defaultProjects: Project[] = [
     metrics: "Achieved 4.5-star rating on user feedback."
   },
   {
-    id: 6,
+    id: 7,
     title: "AI Image Generator",
     description: "An AI-powered image generator using machine learning models to create unique images.",
-    image: "/project-6.jpg",
+    image: "https://bing.com/th/id/BCO.1de3f1d4-b406-4a14-bc2b-6e97c08f3baa.png",
     tags: ["React", "TensorFlow.js", "AI", "Canvas API"],
     github_url: "https://github.com/polojuchandrakanth/ai-image-generator",
     demo_url: "https://ai-image-generator-demo.vercel.app",
@@ -93,4 +107,5 @@ export const defaultFilters = [
   { value: "React", label: "React" },
   { value: "Next.js", label: "Next.js" },
   { value: "AI", label: "AI" },
+  { value: "Python", label: "Python" },
 ]

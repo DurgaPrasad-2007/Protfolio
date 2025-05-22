@@ -7,7 +7,16 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    domains: [
+      "udemy-certificate.s3.amazonaws.com",
+      "media.licdn.com",
+      "freeimghost.net",
+      "bing.com"
+    ],
     unoptimized: true,
+  },
+  devIndicators: {
+    buildActivity: false,
   },
 }
 

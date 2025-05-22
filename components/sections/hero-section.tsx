@@ -89,7 +89,7 @@ const HeroSection = () => {
           {/* Social Icons */}
           <div className="flex gap-6 mt-12 justify-center md:justify-start">
             <motion.a
-              href="https://github.com/your-github"
+              href="https://github.com/DurgaPrasad-2007"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ y: -3 }}

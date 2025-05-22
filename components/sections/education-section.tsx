@@ -54,7 +54,7 @@ const CoursesAndCertifications = () => {
       issueDate: "Apr 2025",
       credentialId: "UC-f6442a91-c551-4bed-9e5c-6be77fca6dc3",
       credentialUrl: "#", // Replace with actual URL if available
-      image: "/images/udemy-fullstack-certificate.png", // Placeholder for image path
+      image: "https://udemy-certificate.s3.amazonaws.com/image/UC-f6442a91-c551-4bed-9e5c-6be77fca6dc3.jpg?v=1745115344000", // Placeholder for image path
       description: "Issued for completing the fullstack web development bootcamp."
     },
     {
@@ -62,8 +62,8 @@ const CoursesAndCertifications = () => {
       issuer: "Besant Technologies",
       issueDate: "Mar 2025",
       credentialId: "BT-ECFT-387026",
-      credentialUrl: "#", // Replace with actual URL if available
-      image: "/images/besant-software-testing-certificate.pdf", // Placeholder for image path (consider how to display PDF)
+      credentialUrl: "#", // Replace with actual URL if available 
+      image: "https://media.licdn.com/dms/image/v2/D562DAQEo6kWrqk1PQA/profile-treasury-document-cover-images_480/B56Zab3JdyGUA8-/0/1746371648563?e=1748268000&v=beta&t=7J_hLX1aIWbhXXvQQzzskk75U2P3rgD1yhgyWa9zqq0", // Placeholder for image path (consider how to display PDF)
       description: "Issued for completing software testing training."
     }
   ];

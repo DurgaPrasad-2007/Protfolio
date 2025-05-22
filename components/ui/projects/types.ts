@@ -7,6 +7,10 @@ export type Project = {
   github_url: string
   demo_url: string
   featured: boolean
+  problem?: string
+  approach?: string
+  outcome?: string
+  metrics?: string
 }
 
 export type Filter = {
