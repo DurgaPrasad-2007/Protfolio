@@ -7,22 +7,27 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
 const recipientPhoneNumber = process.env.RECIPIENT_PHONE_NUMBER;
 
-// Validate environment variables
-if (!accountSid || !authToken || !twilioPhoneNumber || !recipientPhoneNumber) {
-  throw new Error('Missing required Twilio environment variables');
-}
-
-const client = twilio(accountSid, authToken);
+// Only validate environment variables at runtime, not during build
+const validateEnvVars = () => {
+  if (!accountSid || !authToken || !twilioPhoneNumber || !recipientPhoneNumber) {
+    throw new Error('Missing required Twilio environment variables');
+  }
+};
 
 export async function POST(request: Request) {
   try {
+    // Validate environment variables at runtime
+    validateEnvVars();
+
     const { name, email, message } = await request.json();
+
+    const client = twilio(accountSid, authToken);
 
     // Send SMS notification
     const smsMessage = await client.messages.create({
       body: `New contact form submission:\nName: ${name}\nEmail: ${email}\nMessage: ${message}`,
       from: twilioPhoneNumber,
-      to: recipientPhoneNumber // Using environment variable instead of hardcoded value
+      to: recipientPhoneNumber
     });
 
     return NextResponse.json({ success: true, messageId: smsMessage.sid });

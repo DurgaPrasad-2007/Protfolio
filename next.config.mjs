@@ -15,9 +15,7 @@ const nextConfig = {
     ],
     unoptimized: true,
   },
-  devIndicators: {
-    buildActivity: false,
-  },
+  output: 'standalone',
 }
 
 export default nextConfig

@@ -1,26 +1,26 @@
 import { NextRequest, NextResponse } from "next/server"
 import twilio from "twilio"
 
-// Get and validate environment variables
-function getEnvVar(name: string): string {
-  const value = process.env[name]
-  if (!value) {
-    throw new Error(`Missing required environment variable: ${name}`)
+// Get environment variables
+const accountSid = process.env.TWILIO_ACCOUNT_SID
+const authToken = process.env.TWILIO_AUTH_TOKEN
+const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER
+const recipientPhoneNumber = process.env.RECIPIENT_PHONE_NUMBER
+
+// Only validate environment variables at runtime, not during build
+const validateEnvVars = () => {
+  if (!accountSid || !authToken || !twilioPhoneNumber || !recipientPhoneNumber) {
+    throw new Error('Missing required Twilio environment variables')
   }
-  return value
 }
-
-const accountSid = getEnvVar('TWILIO_ACCOUNT_SID')
-const authToken = getEnvVar('TWILIO_AUTH_TOKEN')
-const twilioNumber = getEnvVar('TWILIO_NUMBER')
-const myWhatsAppNumber = getEnvVar('MY_WHATSAPP_NUMBER')
-
-const client = twilio(accountSid, authToken)
 
 export const runtime = 'nodejs'
 
 export async function POST(request: NextRequest) {
   try {
+    // Validate environment variables at runtime
+    validateEnvVars()
+
     const data = await request.json()
     const { name, email, message } = data
 
@@ -28,29 +28,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
 
-    // Send plain WhatsApp message
-    const whatsappMessage = `
-New Contact Form Submission:
-Name: ${name || 'Not provided'}
-Email: ${email || 'Not provided'}
-Message: ${message || 'No message content'}
-    `
+    const client = twilio(accountSid, authToken)
 
-    console.log('Sending message to:', myWhatsAppNumber)
-    console.log('From:', twilioNumber)
-    console.log('Message:', whatsappMessage)
-
-    const messageResponse = await client.messages.create({
-      from: twilioNumber,
-      to: myWhatsAppNumber,
-      body: whatsappMessage
+    // Send SMS notification
+    const smsMessage = await client.messages.create({
+      body: `New contact form submission:\nName: ${name}\nEmail: ${email}\nMessage: ${message}`,
+      from: twilioPhoneNumber,
+      to: recipientPhoneNumber
     })
-    
-    console.log('Message SID:', messageResponse.sid)
 
-    return NextResponse.json({ success: true, message: "Message sent to WhatsApp" })
+    return NextResponse.json({ success: true, messageId: smsMessage.sid })
   } catch (error: any) {
-    console.error("Error sending WhatsApp message:")
+    console.error('Twilio API Error:')
     console.error('Error details:', error)
     
     // Log the full error for debugging
@@ -62,7 +51,7 @@ Message: ${message || 'No message content'}
     
     // Prepare error response
     const errorResponse: any = {
-      error: "Failed to send message",
+      error: "Failed to send notification",
       details: error instanceof Error ? error.message : 'Unknown error'
     }
     
