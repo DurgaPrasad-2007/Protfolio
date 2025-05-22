@@ -145,7 +145,7 @@ const analyzeSentiment = async (text: string): Promise<{
         {
           method: "POST",
           headers: {
-            "Authorization": `Bearer ${process.env.NEXT_PUBLIC_HUGGINGFACE_API_KEY}`,
+            "Authorization": `Bearer ${process.env.NEXT_PUBLIC_HUGGINGFACE_API_KEY || ''}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ inputs: text }),
