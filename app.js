@@ -18,9 +18,21 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioNumber = process.env.TWILIO_PHONE_NUMBER;
 const myWhatsAppNumber = process.env.RECIPIENT_PHONE_NUMBER;
 
+// Debug logging for environment variables
+console.log('Environment Variables Status:');
+console.log('TWILIO_ACCOUNT_SID:', accountSid ? 'Present' : 'Missing');
+console.log('TWILIO_AUTH_TOKEN:', authToken ? 'Present' : 'Missing');
+console.log('TWILIO_PHONE_NUMBER:', twilioNumber ? 'Present' : 'Missing');
+console.log('RECIPIENT_PHONE_NUMBER:', myWhatsAppNumber ? 'Present' : 'Missing');
+
 // Validate environment variables
 if (!accountSid || !authToken || !twilioNumber || !myWhatsAppNumber) {
-  console.error('Missing required Twilio environment variables');
+  console.error('Missing required Twilio environment variables. Please check your environment configuration.');
+  console.error('Required variables:');
+  console.error('- TWILIO_ACCOUNT_SID');
+  console.error('- TWILIO_AUTH_TOKEN');
+  console.error('- TWILIO_PHONE_NUMBER');
+  console.error('- RECIPIENT_PHONE_NUMBER');
   process.exit(1);
 }
 
