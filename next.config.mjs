@@ -16,6 +16,9 @@ const nextConfig = {
     unoptimized: true,
   },
   output: 'standalone',
+  env: {
+    PORT: process.env.PORT || '10000',
+  },
 }
 
 export default nextConfig

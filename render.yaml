@@ -7,6 +7,8 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: PORT
+        value: 10000
       - key: NEXT_PUBLIC_HUGGINGFACE_API_KEY
         sync: false
       - key: TWILIO_ACCOUNT_SID
