@@ -35,7 +35,6 @@ export default function ContactSection() {
           name: formData.name,
           email: formData.email,
           message: formData.message,
-          phone: '+1234567890', // Replace with your phone number
         }),
       });
 
