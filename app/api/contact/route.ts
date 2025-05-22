@@ -17,6 +17,8 @@ const myWhatsAppNumber = getEnvVar('MY_WHATSAPP_NUMBER')
 
 const client = twilio(accountSid, authToken)
 
+export const runtime = 'nodejs'
+
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json()
