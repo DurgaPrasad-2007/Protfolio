@@ -34,12 +34,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Formspree endpoint URL
-    /** @type {ProcessEnv} */
-    const env = process.env;
-    const formspreeUrl = env.FORMSPREE_CONTACT_FORM_URL;
+    const formspreeUrl = process.env.FORMSPREE_CONTACT_FORM_URL
 
     if (!formspreeUrl) {
-       throw new Error("Missing FORMSPREE_CONTACT_FORM_URL environment variable");
+      console.error("Missing FORMSPREE_CONTACT_FORM_URL environment variable")
+      return NextResponse.json(
+        { error: "Contact form configuration error" },
+        { status: 500 }
+      )
     }
 
     // Send data to Formspree
@@ -50,25 +52,25 @@ export async function POST(request: NextRequest) {
         'Accept': 'application/json'
       },
       body: JSON.stringify({ name, email, message })
-    });
+    })
 
     // Check if Formspree submission was successful
     if (formspreeResponse.ok) {
-      return NextResponse.json({ success: true, message: "Message sent successfully via Formspree" });
+      return NextResponse.json({ success: true, message: "Message sent successfully!" })
     } else {
-      const errorData = await formspreeResponse.json();
-      console.error("Formspree submission failed:", formspreeResponse.status, errorData);
-      return NextResponse.json({ error: "Failed to send message via Formspree", details: errorData }, { status: formspreeResponse.status });
+      const errorData = await formspreeResponse.json()
+      console.error("Formspree submission failed:", formspreeResponse.status, errorData)
+      return NextResponse.json(
+        { error: "Failed to send message", details: errorData },
+        { status: formspreeResponse.status }
+      )
     }
 
   } catch (error: any) {
     console.error("Error processing contact form submission:", error)
-    
-    const errorResponse: any = {
-      error: "Failed to process message",
-      details: error instanceof Error ? error.message : 'Unknown error'
-    }
-    
-    return NextResponse.json(errorResponse, { status: 500 })
+    return NextResponse.json(
+      { error: "Failed to process message", details: error.message },
+      { status: 500 }
+    )
   }
 }

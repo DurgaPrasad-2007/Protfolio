@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "vercel-build": "next build",
-    "postinstall": "next telemetry disable"
+    "postinstall": "next telemetry disable",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d out"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",

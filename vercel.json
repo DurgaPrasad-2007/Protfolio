@@ -1,6 +1,12 @@
 {
   "version": 2,
   "framework": "nextjs",
-  "buildCommand": "next build",
-  "outputDirectory": ".next"
+  "buildCommand": "next build && next export",
+  "outputDirectory": "out",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
 } 
