@@ -1,27 +1,22 @@
 import { NextRequest, NextResponse } from "next/server"
+import twilio from "twilio"
 
-// Remove Twilio import
-// import twilio from "twilio"
+// Get and validate environment variables
+function getEnvVar(name: string): string {
+  const value = process.env[name]
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${name}`)
+  }
+  return value
+}
 
-// Remove Twilio environment variable lookups
-// function getEnvVar(name: string): string {
-//   const value = process.env[name]
-//   if (!value) {
-//     throw new Error(`Missing required environment variable: ${name}`)
-//   }
-//   return value
-// }
+const accountSid = getEnvVar('TWILIO_ACCOUNT_SID')
+const authToken = getEnvVar('TWILIO_AUTH_TOKEN')
+const twilioNumber = getEnvVar('TWILIO_NUMBER')
+const myWhatsAppNumber = getEnvVar('MY_WHATSAPP_NUMBER')
 
-// Remove Twilio client initialization
-// const accountSid = getEnvVar('TWILIO_ACCOUNT_SID')
-// const authToken = getEnvVar('TWILIO_AUTH_TOKEN')
-// const twilioNumber = getEnvVar('TWILIO_NUMBER')
-// const myWhatsAppNumber = getEnvVar('MY_WHATSAPP_NUMBER')
+const client = twilio(accountSid, authToken)
 
-// Remove Twilio client initialization
-// const client = twilio(accountSid, authToken)
-
-// Remove runtime export
 export const runtime = 'nodejs'
 
 export async function POST(request: NextRequest) {
@@ -33,44 +28,54 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
 
-    // Formspree endpoint URL
-    const formspreeUrl = process.env.FORMSPREE_CONTACT_FORM_URL
+    // Send plain WhatsApp message
+    const whatsappMessage = `
+New Contact Form Submission:
+Name: ${name || 'Not provided'}
+Email: ${email || 'Not provided'}
+Message: ${message || 'No message content'}
+    `
 
-    if (!formspreeUrl) {
-      console.error("Missing FORMSPREE_CONTACT_FORM_URL environment variable")
-      return NextResponse.json(
-        { error: "Contact form configuration error" },
-        { status: 500 }
-      )
-    }
+    console.log('Sending message to:', myWhatsAppNumber)
+    console.log('From:', twilioNumber)
+    console.log('Message:', whatsappMessage)
 
-    // Send data to Formspree
-    const formspreeResponse = await fetch(formspreeUrl, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({ name, email, message })
+    const messageResponse = await client.messages.create({
+      from: twilioNumber,
+      to: myWhatsAppNumber,
+      body: whatsappMessage
     })
+    
+    console.log('Message SID:', messageResponse.sid)
 
-    // Check if Formspree submission was successful
-    if (formspreeResponse.ok) {
-      return NextResponse.json({ success: true, message: "Message sent successfully!" })
-    } else {
-      const errorData = await formspreeResponse.json()
-      console.error("Formspree submission failed:", formspreeResponse.status, errorData)
-      return NextResponse.json(
-        { error: "Failed to send message", details: errorData },
-        { status: formspreeResponse.status }
-      )
-    }
-
+    return NextResponse.json({ success: true, message: "Message sent to WhatsApp" })
   } catch (error: any) {
-    console.error("Error processing contact form submission:", error)
-    return NextResponse.json(
-      { error: "Failed to process message", details: error.message },
-      { status: 500 }
-    )
+    console.error("Error sending WhatsApp message:")
+    console.error('Error details:', error)
+    
+    // Log the full error for debugging
+    if (error instanceof Error) {
+      console.error('Error stack:', error.stack)
+    } else {
+      console.error('Error (no stack trace):', error)
+    }
+    
+    // Prepare error response
+    const errorResponse: any = {
+      error: "Failed to send message",
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }
+    
+    // Add Twilio error details if available
+    if (error && typeof error === 'object') {
+      errorResponse.twilioError = {
+        code: 'code' in error ? error.code : undefined,
+        moreInfo: 'moreInfo' in error ? error.moreInfo : undefined,
+        status: 'status' in error ? error.status : undefined,
+        message: error.message || undefined
+      }
+    }
+    
+    return NextResponse.json(errorResponse, { status: 500 })
   }
 }
