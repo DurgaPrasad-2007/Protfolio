@@ -22,4 +22,6 @@ services:
       - key: TWILIO_PHONE_NUMBER
         sync: false
       - key: RECIPIENT_PHONE_NUMBER
+        sync: false
+      - key: NEXT_PUBLIC_GA_ID
         sync: false 

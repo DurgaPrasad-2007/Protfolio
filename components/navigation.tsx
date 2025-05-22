@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X, Sun, Moon, Monitor, Download, Award, ChevronDown } from "lucide-react"
 import { useTheme } from "next-themes"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -12,6 +14,7 @@ export default function Navigation() {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
   const [isResumeViewerOpen, setIsResumeViewerOpen] = useState(false);
+  const pathname = usePathname()
 
   // Ensure component is mounted before accessing theme
   useEffect(() => {
@@ -95,14 +98,11 @@ export default function Navigation() {
   };
 
   const navItems = [
-    { id: "home", name: "Home" },
-    { id: "about", name: "About" },
-    { id: "skills", name: "Skills" },
-    { id: "projects", name: "Projects" },
-    { id: "certificates", name: "Certificates" },
-    // Keep 'resume' for navigation link that opens viewer
-    { id: "resume", name: "Resume" }, 
-    { id: "contact", name: "Contact" },
+    { name: "Home", href: "/" },
+    { name: "About", href: "/#about" },
+    { name: "Projects", href: "/#projects" },
+    { name: "Experience", href: "/#experience" },
+    { name: "Contact", href: "/#contact" },
   ]
 
   if (!mounted) return null
@@ -115,129 +115,29 @@ export default function Navigation() {
         </div>
       </div>
       
-      <nav className="sticky top-0 w-full z-50">
-        <motion.div
-          className={`flex items-center justify-between px-4 py-3 md:px-12 transition-all duration-300 ${
-            isScrolled
-              ? "bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg shadow-md"
-              : "bg-white dark:bg-gray-900"
-          }`}
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="flex items-center gap-4">
-            <motion.div
-              className="text-blue-400 flex items-center gap-2"
-              whileHover={{ scale: 1.05 }}
-            >
-              <span className="text-xl font-bold">P</span>
-              <span className="text-sm font-semibold text-white">Portfolio</span>
-            </motion.div>
+      <nav className="fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-14 items-center">
+          <div className="mr-4 flex">
+            <Link href="/" className="mr-6 flex items-center space-x-2">
+              <span className="font-bold">Durga Prasad</span>
+            </Link>
           </div>
-
-          <div className="flex-1 flex justify-end items-center gap-6">
-            <div className="hidden md:flex items-center gap-8">
+          <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+            <nav className="flex items-center space-x-6">
               {navItems.map((item) => (
-                <motion.div
-                  key={item.id}
-                  className="flex items-center gap-2"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`text-sm font-medium transition-colors hover:text-primary ${
+                    pathname === item.href ? "text-foreground" : "text-foreground/60"
+                  }`}
                 >
-                  <a
-                    href={`#${item.id}`}
-                    onClick={(e) => scrollToSection(e, item.id)}
-                    className={`text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors ${ (activeSection === item.id && item.id !== 'resume') || (item.id === 'resume' && isResumeViewerOpen) ? "font-medium text-blue-600 dark:text-blue-400" : "" }`}
-                  >
-                    {item.name}
-                  </a>
-                </motion.div>
+                  {item.name}
+                </Link>
               ))}
-            </div>
-
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                aria-label="Toggle dark mode"
-              >
-                {theme === 'dark' ? (
-                  <Sun className="w-5 h-5" />
-                ) : (
-                  <Moon className="w-5 h-5" />
-                )}
-              </button>
-
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                aria-label="Toggle menu"
-              >
-                {isMobileMenuOpen ? (
-                  <X className="w-6 h-6" />
-                ) : (
-                  <Menu className="w-6 h-6" />
-                )}
-              </button>
-            </div>
+            </nav>
           </div>
-        </motion.div>
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="fixed top-24 left-0 right-0 bg-white dark:bg-gray-900 shadow-lg p-6 border-t border-gray-200 dark:border-800"
-            >
-              <div className="flex flex-col gap-4">
-                {navItems.map((item) => (
-                  <motion.div
-                    key={item.id}
-                    className="flex items-center gap-2"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <a
-                      href={`#${item.id}`}
-                      onClick={(e) => {
-                        scrollToSection(e, item.id)
-                        // setIsMobileMenuOpen(false) // scrollToSection now handles this
-                      }}
-                      className={`block w-full py-2 px-4 rounded-md transition-colors ${ activeSection === item.id && item.id !== 'resume' ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800' }`}
-                    >
-                      {item.name}
-                    </a>
-                  </motion.div>
-                ))}
-                
-                <div className="pt-4 mt-2 border-t border-gray-200 dark:border-gray-800">
-                  <button
-                    onClick={() => {
-                      setTheme(theme === 'dark' ? 'light' : 'dark')
-                      setIsMobileMenuOpen(false)
-                    }}
-                    className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  >
-                    {theme === 'dark' ? (
-                      <>
-                        <Sun className="w-5 h-5" />
-                        <span>Light Mode</span>
-                      </>
-                    ) : (
-                      <>
-                        <Moon className="w-5 h-5" />
-                        <span>Dark Mode</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        </div>
       </nav>
       <div className="h-16" />
 
