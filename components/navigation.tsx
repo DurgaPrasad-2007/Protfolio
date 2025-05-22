@@ -25,7 +25,7 @@ export default function Navigation() {
       
       // Update active section based on scroll position
       // Exclude 'resume' and 'view-resume' from section tracking
-      const sections = ["home", "about", "skills", "projects", "contact", "certificates"]
+      const sections = ["home", "about", "skills", "projects", "certificates", "ai-demo", "contact"]
       const scrollPosition = window.scrollY + 100
       
       let currentActive = "home";
@@ -100,6 +100,7 @@ export default function Navigation() {
     { id: "skills", name: "Skills" },
     { id: "projects", name: "Projects" },
     { id: "certificates", name: "Certificates" },
+    { id: "ai-demo", name: "AI Demo" },
     // Keep 'resume' for navigation link that opens viewer
     { id: "resume", name: "Resume" }, 
     { id: "contact", name: "Contact" },
@@ -190,7 +191,7 @@ export default function Navigation() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="fixed top-24 left-0 right-0 bg-white dark:bg-gray-900 shadow-lg p-6 border-t border-gray-200 dark:border-800"
+              className="fixed top-24 left-0 right-0 bg-white dark:bg-gray-900 shadow-lg p-6 border-t border-gray-200 dark:border-gray-800"
             >
               <div className="flex flex-col gap-4">
                 {navItems.map((item) => (
@@ -206,7 +207,7 @@ export default function Navigation() {
                         scrollToSection(e, item.id)
                         // setIsMobileMenuOpen(false) // scrollToSection now handles this
                       }}
-                      className={`block w-full py-2 px-4 rounded-md transition-colors ${ activeSection === item.id && item.id !== 'resume' ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800' }`}
+                      className={`block w-full py-2 px-4 rounded-md transition-colors ${ (activeSection === item.id && item.id !== 'resume') || (item.id === 'resume' && isResumeViewerOpen) ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800' }`}
                     >
                       {item.name}
                     </a>
