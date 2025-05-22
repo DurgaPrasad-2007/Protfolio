@@ -11,31 +11,57 @@ export default function ContactSection() {
   const [status, setStatus] = useState("")
   const [visitorCount, setVisitorCount] = useState(0)
   const { theme } = useTheme()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus("Sending...")
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
+      // Send SMS notification via Twilio
+      const response = await fetch('/api/twilio', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          phone: '+1234567890', // Replace with your phone number
+        }),
+      });
 
-      const result = await response.json()
-      if (response.ok) {
-        setStatus("Message sent successfully!")
-        setFormData({ name: "", email: "", message: "" })
-      } else {
-        setStatus(result.error || "Failed to send message.")
+      if (!response.ok) {
+        throw new Error('Failed to send notification');
       }
-    } catch (error) {
-      setStatus("Failed to send message.")
+
+      // Send email notification (existing code)
+      const emailResponse = await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!emailResponse.ok) {
+        throw new Error('Failed to send email');
+      }
+
+      setFormData({ name: '', email: '', message: '' });
+      setSuccess(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong');
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
