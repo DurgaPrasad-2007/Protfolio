@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "vercel-build": "next build"
+    "vercel-build": "next build",
+    "postinstall": "next telemetry disable"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",
